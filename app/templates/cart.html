@@ -1,0 +1,43 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="sc-container">
+<div class="sc-cart-container">
+    <h1 class="sc-cart-title">Shopping Cart</h1>
+
+    {% if cart_items %}
+        <div class="sc-cart-items">
+            {% for item in cart_items %}
+                <div class="sc-cart-item">
+                    <div class="sc-item-details">
+                        <p class="sc-item-title">{{ item.title }}</p>
+                        <p class="sc-item-price">${{ item.price }}</p>
+                    </div>
+
+                    <form method="post" class="sc-update-form" action="{% url 'update_cart' item.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="sc-input">
+                        <button type="submit" class="sc-btn sc-update-btn">Update</button>
+                    </form>
+
+                    <form method="post" class="sc-remove-form" action="{% url 'remove_from_cart' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="sc-btn sc-remove-btn">Remove</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="sc-total-section">
+            <p>Total: ${{ total }}</p>
+            <a href="{% url 'checkout' %}" class="sc-btn sc-checkout-btn">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p class="sc-empty-message">Your cart is empty</p>
+    {% endif %}
+
+</div>
+</div>
+      {% endblock content %}
+  
