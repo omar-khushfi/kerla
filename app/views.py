@@ -127,13 +127,14 @@ def checkout(request):
     return render(request, 'checkout.html', {
         'cart': request.session.get('cart', {})
     })
-    
-    
+
+
 def home_view(request):
     products = Product.objects.all()
     paginator=Paginator(products,9) 
     page_number=request.GET.get("page")
     oredr_count=Order.objects.all().count()
+    
     try:
         products=paginator.page(page_number)
     except PageNotAnInteger: 
