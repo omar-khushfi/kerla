@@ -164,16 +164,17 @@ def product_detail(request, product_id):
 
 def send_message(request):
     if request.method == "POST":
-       
-           
             name = request.POST.get("name")
             content = request.POST.get("content")
             email = request.POST.get("email")
             phone=request.POST.get("phone")
-            Message.objects.create(
-                name=name,
-                phone_number=phone,
-                email=email,
-                content=content,
-            )
+            try:
+                Message.objects.create(
+                    name=name,
+                    phone_number=phone,
+                    email=email,
+                    content=content,
+                )
+            except:
+                pass
     return redirect('/')
